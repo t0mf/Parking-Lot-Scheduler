@@ -14,7 +14,7 @@ The Parking Lot team at my church consists of 40-50 people. Three of which are o
  - Each team member is allowed to say which days they cannot work.
 
 ### How the input file works
-The input file is named "ParkingLotTeam.csv" and contains various information about each team member. An example input file is provided at /Parking-Lot-Scheduler/Example Input-Output Files/ParkingLotTeam.csv. NOTE: All names in the input file have been randomly generated.
+The input file is named "ParkingLotTeam.csv" and contains various information about each team member. An example input file is provided at /Parking-Lot-Scheduler/input-file/ParkingLotTeam.csv. **NOTE:** All names in the input file have been randomly generated.
 
 The first line of the file contains:
 `Carlos Miller: 123-456-7890`
@@ -53,7 +53,7 @@ An Example:
 
 ### Output files explained
 
-The program has five output files, example files provided at /Parking-Lot-Scheduler/Example Input-Output Files/ :
+The program has five output files, example files provided at /Parking-Lot-Scheduler/output-files/ :
 
 1. calFile.csv
     - The purpose of the calFile is to import it into an excel template so that there is a nice-looking schedule that can be sent to all the team members
