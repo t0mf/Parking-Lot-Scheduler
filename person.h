@@ -9,8 +9,8 @@ using namespace std;
 class person {
 private:
 	
-	string personName, serviceAvailable, skipDays = "empty", shift1Name = "empty", shift2Name = "empty";
-	int shift1Day = 0, shift1Month = 0, shift1Year = 0, shift2Day = 0, shift2Month = 0, shift2Year = 0, assignOnceFlag = 0;
+	string personName, serviceAvailable, skipDays, shift1Name, shift2Name;
+	int shift1Day, shift1Month, shift1Year, shift2Day, shift2Month, shift2Year, assignOnceFlag;
 
 public:
 
@@ -19,7 +19,15 @@ public:
 		personName(n),
 		serviceAvailable(d),
 		skipDays(s),
-		assignOnceFlag(f)
+		assignOnceFlag(f),
+		shift1Name("empty"),
+		shift1Day(0),
+		shift1Month(0),
+		shift1Year(0),
+		shift2Name("empty"),
+		shift2Day(0),
+		shift2Month(0),
+		shift2Year(0)
 	{}
 
 	// Gets
