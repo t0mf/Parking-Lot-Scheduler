@@ -7,7 +7,9 @@
 #include "person.h"
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <algorithm>
+#include <iterator>
 #include <ctime>
 
 using namespace std;

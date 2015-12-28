@@ -3,11 +3,11 @@
 
 #include "declarations.h"
 
-ofstream vueFile("vueFile.csv");
-ofstream calFile("calFile.csv");
-ofstream assignedFile("assignedFile.csv");
-ofstream serviceOutFile("serviceOutFile.csv");
-ofstream personOutFile("personOutFile.csv");
+ofstream vueFile("output-files/vueFile.csv");
+ofstream calFile("output-files/calFile.csv");
+ofstream assignedFile("output-files/assignedFile.csv");
+ofstream serviceOutFile("output-files/serviceOutFile.csv");
+ofstream personOutFile("output-files/personOutFile.csv");
 
 int assignedCount = 0;
 

@@ -1,6 +1,6 @@
 #include "declarations.h"
 
-ifstream inFile("ParkingLotTeam.csv");
+ifstream inFile("input-file/ParkingLotTeam.csv");
 
 int main() {
 	string monthInput, yearInput, monthOutput, firstWeekDayOfMonth, dayInput, serviceAvailable, skipDays, personName, assignOnceFlagStr, phone;
@@ -261,7 +261,9 @@ void assignPersons(string serviceNumber, service& serviceObj, vector<person>& pe
 
 // Method randomly shuffles the personVector
 void shuffleNames(vector<person> &personVector)
-{
-	srand(unsigned(time(NULL)));
-	random_shuffle(personVector.begin(), personVector.end());
+{	
+	random_device rd;
+	mt19937 g(rd());
+
+	shuffle(personVector.begin(), personVector.end(), g);
 }
