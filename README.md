@@ -54,14 +54,19 @@ An Example:
 ### Output files explained
 
 The program has five output files, example files provided at /Parking-Lot-Scheduler/Example Input-Output Files/ :
+
 1. calFile.csv
     - The purpose of the calFile is to import it into an excel template so that there is a nice-looking schedule that can be sent to all the team members
+    
 2. vueFile.csv
     - The purpose of the vueFile is to import the schedule into the application VueMinder (http://www.vueminder.com/) which is a great calendar program that allows you to send reminders via email/text. I use this program to remind the team members of their upcoming shifts.
+    
 3. assignedFile.csv
     - The purpose of the assignedFile is so that I can quickly see how many times each person was assigned a shift and how many people total got assigned.
+    
 4. personOutFile.csv
     - The purpose of the personOutFile is so I can quickly see which services a certain person is assigned to and how many days apart the shifts are.
+    
 5. serviceOutFile.csv
     - The purpose of the serviceOutFile is so I can quickly see which people are assigned to each service.
 
