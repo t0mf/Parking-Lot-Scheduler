@@ -9,7 +9,7 @@ using namespace std;
 class service {
 private:
 
-	string name, person1 = "empty", person2 = "empty", person3 = "empty";
+	string name, person1, person2, person3;
 	int day, month, year;
 
 public:
@@ -19,7 +19,10 @@ public:
 		name(n),
 		day(d),
 		month(m),
-		year(y)
+		year(y),
+		person1("empty"),
+		person2("empty"),
+		person3("empty")
 	{}
 	
 	// Gets
