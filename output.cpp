@@ -11,7 +11,8 @@ ofstream personOutFile("output-files/personOutFile.csv");
 
 int assignedCount = 0;
 
-// Method outputs all service and who the assigned persons are
+// Method outputs serviceOutFile.csv - A basic output of information about each service throughout the month.
+//	Example: "The <service name> service which is on <date>, has <person 1, 2, and 3> assigned to it."
 void serviceOut(vector<service>& serviceVector) {
 	for (int i = 0; i < serviceVector.size(); i++) {
 		// Output to serviceOutFile using the overloaded oeprator
@@ -19,7 +20,11 @@ void serviceOut(vector<service>& serviceVector) {
 	}
 }
 
-// Method outputs all persons and which services they are assigned to
+// Method outputs personOutFile.csv - A basic output of information to detail which two services
+//	each person is assigned to and how many days apart the services are.
+//	Example: "<person's name> is assigned for <service1 name> on <date> and <service2 name> on <date> (<number> of days apart)"
+// Method outputs assignedFile.csv - A file which displays how many times a person has been assigned to a service
+//	and total number of people that were assigned for the month.
 void personOut(vector<person>& personVector) {
 	
 	// Sorts the personVector to be alphabetical
@@ -48,169 +53,49 @@ void personOut(vector<person>& personVector) {
 	assignedFile << "Total assigned: " << assignedCount;
 }
 
-// Method outputs a csv which can be imported into an excel
-// template to create a calendar which is sent to all the members.
-void calOut(vector<service>& sv, string month, int year, int sundayInt, int wednesdayInt, int sunCount, int wedCount, string phone) {
+// Method outputs calOutFile.csv - A file which can be imported into an excel template to create a nice looking schedule.
+void calOut(vector<service>& serviceVector, string month, int year, int sundayInt, int wednesdayInt, int sunCount, int wedCount, string phone) {
 
-	// Temporary strings used for output
-	string ss1, ss2, ss3, sm1, sm2, sm3, sn1, sn2, sn3, wn1, wn2, wn3;
-
+	// Output to calFile column headers
 	calFile << month << " " << year << ",,,Parking Lot Duty\n"
 		<< "Sunday School,Sunday Morning Service,Sunday Evening Service,Wednesday Evening Service\n"
 		<< "9:00 - 10:15,10:15 - 11:45,5:30 - 8:15,6:30 - 8:15\n";
 			
-	if (sunCount == wedCount) { // If there are 4 Sundays and 4 Wednesdays
-		if (sundayInt < wednesdayInt) { // If the first Sunday comes before the first Wednesday
-			// Output to calFile 4 full weeks
-			for (int i = 0; i < sv.size(); i += 4) {
-				calFile << sv[i].getDay() << "-" << month << "," << sv[i+1].getDay() << "-" << month << "," << sv[i+2].getDay() << "-" << month << "," << sv[i+3].getDay() << "-" << month << "\n,,,\n";
-
-				ss1 = sv[i].getPerson1();
-				ss2 = sv[i].getPerson2();
-				ss3 = sv[i].getPerson3();
-
-				sm1 = sv[i+1].getPerson1();
-				sm2 = sv[i+1].getPerson2();
-				sm3 = sv[i+1].getPerson3();
-
-				sn1 = sv[i+2].getPerson1();
-				sn2 = sv[i+2].getPerson2();
-				sn3 = sv[i+2].getPerson3();
-
-				wn1 = sv[i+3].getPerson1();
-				wn2 = sv[i+3].getPerson2();
-				wn3 = sv[i+3].getPerson3();
-
-				calFile << ss1 << ',' << sm1 << ',' << sn1 << ',' << wn1 << '\n';
-				calFile << ss2 << ',' << sm2 << ',' << sn2 << ',' << wn2 << '\n';
-				calFile << ss3 << ',' << sm3 << ',' << sn3 << ',' << wn3 << "\n,,,\n";
-			}
+	// If there are four Sundays and four Wednesdays
+	if (sunCount == wedCount) {
+		// If the first Sunday comes before the first Wednesday
+		if (sundayInt < wednesdayInt) {
+			// Output to calFile four full weeks
+			outputFullWeek(serviceVector, 0, serviceVector.size(), month);
 		}
-		else if (sundayInt > wedCount) { // Else if the first Sunday comes after the first Wednesday
-			// Output to calFile the first Wednesday
-			calFile << ",,," << sv[0].getDay() << "-" << month << endl << ",,," << endl
-				<< ",,," << sv[0].getPerson1() << endl
-				<< ",,," << sv[0].getPerson2() << endl
-				<< ",,," << sv[0].getPerson3() << endl << ",,," << endl;
-			// Output to calFile 3 full weeks
-			for (int i = 1; i < sv.size()-3; i += 4) {
-				calFile << sv[i].getDay() << "-" << month << "," << sv[i + 1].getDay() << "-" << month << "," << sv[i + 2].getDay() << "-" << month << "," << sv[i + 3].getDay() << "-" << month << "\n,,,\n";
+		// Else if the first Sunday comes after the first Wednesday
+		else if (sundayInt > wedCount) {
+			// Output to calFile the first Wednesday of the month
+			outputFirstWednesday(serviceVector, month);
 
-				ss1 = sv[i].getPerson1();
-				ss2 = sv[i].getPerson2();
-				ss3 = sv[i].getPerson3();
+			// Output to calFile three full weeks
+			outputFullWeek(serviceVector, 1, serviceVector.size() - 3, month);
 
-				sm1 = sv[1+1].getPerson1();
-				sm2 = sv[i+1].getPerson2();
-				sm3 = sv[i+1].getPerson3();
-
-				sn1 = sv[i+2].getPerson1();
-				sn2 = sv[i+2].getPerson2();
-				sn3 = sv[i+2].getPerson3();
-
-				wn1 = sv[i+3].getPerson1();
-				wn2 = sv[i+3].getPerson2();
-				wn3 = sv[i+3].getPerson3();
-
-				calFile << ss1 << ',' << sm1 << ',' << sn1 << ',' << wn1 << '\n';
-				calFile << ss2 << ',' << sm2 << ',' << sn2 << ',' << wn2 << '\n';
-				calFile << ss3 << ',' << sm3 << ',' << sn3 << ',' << wn3 << "\n,,,\n";
-			}
-			// Output to calFile the last Sunday
-			calFile << sv[sv.size()-3].getDay() << "-" << month << "," << sv[sv.size()-2].getDay() << "-" << month << "," << sv[sv.size() - 1].getDay() << "-" << month << endl;
-
-			ss1 = sv[sv.size()-3].getPerson1();
-			ss2 = sv[sv.size()-3].getPerson2();
-			ss3 = sv[sv.size()-3].getPerson3();
-
-			sm1 = sv[sv.size()-2].getPerson1();
-			sm2 = sv[sv.size()-2].getPerson2();
-			sm3 = sv[sv.size()-2].getPerson3();
-
-			sn1 = sv[sv.size()-1].getPerson1();
-			sn2 = sv[sv.size()-1].getPerson2();
-			sn3 = sv[sv.size()-1].getPerson3();
-
-			calFile << ss1 << ',' << sm1 << ',' << sn1 << '\n';
-			calFile << ss2 << ',' << sm2 << ',' << sn2 << '\n';
-			calFile << ss3 << ',' << sm3 << ',' << sn3 << "\n,,,\n";
+			// Output to calFile the last Sunday of the month
+			outputLastSunday(serviceVector, month);
 		}
 	}
-	else if (sunCount < wedCount) { // Else if there are 5 Wednesdays and 4 Sundays
-		// Output to calFile the first Wednesday
-		calFile << ",,," << sv[0].getDay() << "-" << month << endl << ",,," << endl
-			<< ",,," << sv[0].getPerson1() << endl
-			<< ",,," << sv[0].getPerson2() << endl
-			<< ",,," << sv[0].getPerson3() << endl << ",,," << endl;
-		// Output to calFile 4 full weeks
-		for (int i = 1; i < sv.size(); i += 4) {
-			calFile << sv[i].getDay() << "-" << month << "," << sv[i + 1].getDay() << "-" << month << "," << sv[i + 2].getDay() << "-" << month << "," << sv[i + 3].getDay() << "-" << month << "\n,,,\n";
+	// Else if there are five Wednesdays and four Sundays
+	else if (sunCount < wedCount) { 
+		// Output to calFile the first Wednesday of the month
+		outputFirstWednesday(serviceVector, month);
 
-			ss1 = sv[i].getPerson1();
-			ss2 = sv[i].getPerson2();
-			ss3 = sv[i].getPerson3();
-
-			sm1 = sv[i + 1].getPerson1();
-			sm2 = sv[i + 1].getPerson2();
-			sm3 = sv[i + 1].getPerson3();
-
-			sn1 = sv[i + 2].getPerson1();
-			sn2 = sv[i + 2].getPerson2();
-			sn3 = sv[i + 2].getPerson3();
-
-			wn1 = sv[i + 3].getPerson1();
-			wn2 = sv[i + 3].getPerson2();
-			wn3 = sv[i + 3].getPerson3();
-
-			calFile << ss1 << ',' << sm1 << ',' << sn1 << ',' << wn1 << '\n';
-			calFile << ss2 << ',' << sm2 << ',' << sn2 << ',' << wn2 << '\n';
-			calFile << ss3 << ',' << sm3 << ',' << sn3 << ',' << wn3 << "\n,,,\n";
-		}
+		// Output to calFile last four full weeks
+		outputFullWeek(serviceVector, 1, serviceVector.size(), month);
 
 	}
-	else if (sunCount > wedCount) { // Else if there are 5 Sundays and 4 Wednesdays
-		// Output to calFile 4 full weeks
-		for (int i = 0; i < sv.size()-3; i += 4) {
-			calFile << sv[i].getDay() << "-" << month << "," << sv[i + 1].getDay() << "-" << month << "," << sv[i + 2].getDay() << "-" << month << "," << sv[i + 3].getDay() << "-" << month << "\n,,,\n";
+	// Else if there are five Sundays and four Wednesdays
+	else if (sunCount > wedCount) { 
+		// Output to calFile the first four weeks
+		outputFullWeek(serviceVector, 0, serviceVector.size() - 3, month);
 
-			ss1 = sv[i].getPerson1();
-			ss2 = sv[i].getPerson2();
-			ss3 = sv[i].getPerson3();
-
-			sm1 = sv[i + 1].getPerson1();
-			sm2 = sv[i + 1].getPerson2();
-			sm3 = sv[i + 1].getPerson3();
-
-			sn1 = sv[i + 2].getPerson1();
-			sn2 = sv[i + 2].getPerson2();
-			sn3 = sv[i + 2].getPerson3();
-
-			wn1 = sv[i + 3].getPerson1();
-			wn2 = sv[i + 3].getPerson2();
-			wn3 = sv[i + 3].getPerson3();
-
-			calFile << ss1 << ',' << sm1 << ',' << sn1 << ',' << wn1 << '\n';
-			calFile << ss2 << ',' << sm2 << ',' << sn2 << ',' << wn2 << '\n';
-			calFile << ss3 << ',' << sm3 << ',' << sn3 << ',' << wn3 << "\n,,,\n";
-		}
-		// Output to calFile the last Sunday
-		calFile << sv[sv.size() - 3].getDay() << "-" << month << "," << sv[sv.size() - 2].getDay() << "-" << month << "," << sv[sv.size() - 1].getDay() << "-" << month << "\n,,,\n";
-
-		ss1 = sv[sv.size() - 3].getPerson1();
-		ss2 = sv[sv.size() - 3].getPerson2();
-		ss3 = sv[sv.size() - 3].getPerson3();
-
-		sm1 = sv[sv.size() - 2].getPerson1();
-		sm2 = sv[sv.size() - 2].getPerson2();
-		sm3 = sv[sv.size() - 2].getPerson3();
-
-		sn1 = sv[sv.size() - 1].getPerson1();
-		sn2 = sv[sv.size() - 1].getPerson2();
-		sn3 = sv[sv.size() - 1].getPerson3();
-
-		calFile << ss1 << ',' << sm1 << ',' << sn1 << '\n';
-		calFile << ss2 << ',' << sm2 << ',' << sn2 << '\n';
-		calFile << ss3 << ',' << sm3 << ',' << sn3 << "\n,,,\n";
+		// Output to calFile the last Sunday of the month
+		outputLastSunday(serviceVector, month);
 	}
 
 	// Output to calFile a message to go below the calendar
@@ -221,8 +106,55 @@ void calOut(vector<service>& sv, string month, int year, int sundayInt, int wedn
 		<< ",\"" << phone << "\"";	
 }
 
-// Method outputs a csv which can be imported into the calendar application VueMinder (http://www.vueminder.com/)
-// VueMinder is used to send text/emails to members to remind them of their assigned services
+// Method outputs a full week to calFile
+void outputFullWeek(vector<service>& serviceVector, int start, int loopCount, string month) {
+	for (int i = start; i < loopCount; i += 4) {
+		calFile << serviceVector[i].getDay() << "-" << month << ","
+				<< serviceVector[i + 1].getDay() << "-" << month << ","
+				<< serviceVector[i + 2].getDay() << "-" << month << ","
+				<< serviceVector[i + 3].getDay() << "-" << month << "\n,,,\n"
+				<< serviceVector[i].getPerson1() << ','
+				<< serviceVector[i + 1].getPerson1() << ','
+				<< serviceVector[i + 2].getPerson1() << ','
+				<< serviceVector[i + 3].getPerson1() << '\n'
+				<< serviceVector[i].getPerson2() << ','
+				<< serviceVector[i + 1].getPerson2() << ','
+				<< serviceVector[i + 2].getPerson2() << ','
+				<< serviceVector[i + 3].getPerson2() << '\n'
+				<< serviceVector[i].getPerson3() << ','
+				<< serviceVector[i + 1].getPerson3() << ','
+				<< serviceVector[i + 2].getPerson3() << ','
+				<< serviceVector[i + 3].getPerson3() << "\n,,,\n";
+	}
+}
+
+// Method outputs the first Wednesday of the month to calFile
+void outputFirstWednesday(vector<service>& serviceVector, string month) {
+	calFile << ",,," << serviceVector[0].getDay() << "-" << month << endl << ",,," << endl
+			<< ",,," << serviceVector[0].getPerson1() << endl
+			<< ",,," << serviceVector[0].getPerson2() << endl
+			<< ",,," << serviceVector[0].getPerson3() << endl << ",,," << endl;
+}
+
+// Method outputs the last Sunday of the month to calFile
+void outputLastSunday(vector<service>& serviceVector, string month) {
+
+	calFile << serviceVector[serviceVector.size() - 3].getDay() << "-" << month << "," 
+			<< serviceVector[serviceVector.size() - 2].getDay() << "-" << month << "," 
+			<< serviceVector[serviceVector.size() - 1].getDay() << "-" << month << endl
+			<< serviceVector[serviceVector.size() - 3].getPerson1() << ',' 
+			<< serviceVector[serviceVector.size() - 2].getPerson1() << ',' 
+			<< serviceVector[serviceVector.size() - 1].getPerson1() << '\n'
+			<< serviceVector[serviceVector.size() - 3].getPerson2() << ',' 
+			<< serviceVector[serviceVector.size() - 2].getPerson2() << ',' 
+			<< serviceVector[serviceVector.size() - 1].getPerson2() << '\n'
+			<< serviceVector[serviceVector.size() - 3].getPerson3() << ',' 
+			<< serviceVector[serviceVector.size() - 2].getPerson3() << ',' 
+			<< serviceVector[serviceVector.size() - 1].getPerson3() << "\n,,,\n";
+}
+
+// Method outputs vueOutFile.csv - A file which can be imported into the calendar program VueMinder (http://www.vueminder.com/)
+//	which is used to automatically send text/emails to remind members of their shifts.
 void vueOut(vector<service>& serviceVector, string phone) {
 	vueFile << "Title, Start date, Start time, Description\n";
 

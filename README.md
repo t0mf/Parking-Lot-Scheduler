@@ -22,6 +22,7 @@ And contains the team leader's name and phone number and is used in the output t
 
 The rest of the lines contain information in the format of:
 `Services the team member can do, Flag to tell if they can do one or two shifts, Name, Specific days they can't make`
+
 An Example:
 `12,0,Brian Price,3/6/20`
 
@@ -35,42 +36,42 @@ An Example:
     - In this case, they cannot work Jan 3rd, 6th, or 20th.
 
 ### Quick overview of how the program works
-- The program starts by getting an input from the user, month and year to create a schedule for.
-    - The input should be in the format of `Jan 2016`, `November 2016`, `apr 2016`, etc. It accepts many different ways to say each month
-- Executes "month calculations" to determine the following:
+1. The program calls the getInput method.
+    - The method gets input from the user to determine which month and year to create a schedule for and gets input from the input file (ParkingLotTeam.csv) and creates a personVector which stores the members.
+    - The input from the user should be in the format of `Jan 2016`, `November 2016`, `apr 2016`, etc. It accepts many different ways to say each month
+2. The program executes the monthCalculations method which gets the following:
     - The day of the week that the month starts on. (January 2016 starts on a Friday)
     - If the current year is a leap year or not (strictly for February schedules)
     - The days that the first Sunday and Wednesday fall on. (For January 2016 the first Sunday is the 3rd and the first Wednesday is the 6th)
     - The number of Sundays and Wednesdays in the month. (January 2016 has 5 Sundays and 4 Wednesdays)
-- Populates a vector full of service objects.
-    - There is 1 object for each service throughout the month.
-    - Each object contains information such as: name, date, and who is assigned to it.
-- Populates a vector full of people objects.
-    - There is 1 object for each person.
-    - Each object contains information such as: name, services they can do, services assigned to, etc.
-- Assigns members to services based on the constraints listed above.
-- Outputs the schedule to csv files to be used elsewhere.
+3. The program calls the createServices method. 
+    - The method populates a vector (serviceVector) with type <service> objects to hold information about each service throughout the month such as: name, date, and who is assigned.
+4. The program calls the assignServices method. 
+    - The method assigns persons from the personVector to services from the serviceVector
+5. The program calls the output method.
+    - The method outputs five various files, explained below. 
 
 ### Output files explained
 
 The program has five output files, example files provided at /Parking-Lot-Scheduler/output-files/ :
 
-1. calFile.csv
-    - The purpose of the calFile is to import it into an excel template so that there is a nice-looking schedule that can be sent to all the team members
-    
-2. vueFile.csv
-    - The purpose of the vueFile is to import the schedule into the application VueMinder (http://www.vueminder.com/) which is a great calendar program that allows you to send reminders via email/text. I use this program to remind the team members of their upcoming shifts.
-    
+1. serviceOutFile.csv
+    - A basic output of information about each service throughout the month.
+    - Example: "The <service name> service which is on <date>, has <person 1, 2, and 3> assigned to it."
+
+2. personOutFile.csv
+    - A basic output of information to detail which two services each person is assigned to and how many days apart the services are.
+    - Example: "<person's name> is assigned for <service1 name> on <date> and <service2 name> on <date> (<number> of days apart)"
+
 3. assignedFile.csv
-    - The purpose of the assignedFile is so that I can quickly see how many times each person was assigned a shift and how many people total got assigned.
-    
-4. personOutFile.csv
-    - The purpose of the personOutFile is so I can quickly see which services a certain person is assigned to and how many days apart the shifts are.
-    
-5. serviceOutFile.csv
-    - The purpose of the serviceOutFile is so I can quickly see which people are assigned to each service.
+    - A file which displays how many times a person has been assigned to a service and total number of people that were assigned for the month.
 
-
+4. calOutFile.csv
+    - A file which can be imported into an excel template to create a nice looking schedule.
+    
+2. vueOutFile.csv
+    - A file which can be imported into the calendar program VueMinder (http://www.vueminder.com/) which is used to automatically send text/emails to remind members of their shifts.
+    
 
 
 
