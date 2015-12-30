@@ -1,7 +1,9 @@
 # Parking-Lot-Scheduler
 Scheduler for the parking lot team at my church implemented in C++
 
-Created by Thomas Fiveash on 12/27/2015.
+First revision created by Thomas Fiveash 12/2014.
+
+Second revision (current version) created by Thomas Fiveash on 12/27/15.
 
 ### About
 The Parking Lot team at my church consists of 40-50 people. Three of which are on duty during any given service; one watching over each of the three parking lots. This program automatically generates a random schedule for the specified month, taking in consideration some constraints.
@@ -57,14 +59,14 @@ The program has five output files, example files provided at /Parking-Lot-Schedu
 
 1. serviceOutFile.csv
     - A basic output of information about each service throughout the month.
-    - Example: "The <service name> service which is on <date>, has <person 1, 2, and 3> assigned to it."
+    - Example: `The <service name> service which is on <date>, has <person 1, 2, and 3> assigned to it.`
 
 2. personOutFile.csv
     - A basic output of information to detail which two services each person is assigned to and how many days apart the services are.
-    - Example: "<person's name> is assigned for <service1 name> on <date> and <service2 name> on <date> (<number> of days apart)"
+    - Example: `<person's name> is assigned for service1 name> on <service1 date> and <service2 name> on <service2 date> (<number> of days between shifts)`
 
 3. assignedFile.csv
-    - A file which displays how many times a person has been assigned to a service and total number of people that were assigned for the month.
+    - A file which displays how many times a person has been assigned to a service and the total number of people that were assigned for the month.
 
 4. calOutFile.csv
     - A file which can be imported into an excel template to create a nice looking schedule.
