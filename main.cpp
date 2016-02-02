@@ -3,7 +3,7 @@
 void getInput(vector<person>& personVector, string& monthOutput, int& monthInt, int& yearInt, string& phone);
 void monthCalculations(int monthInt, int yearInt, int& sundayInt, int& wednesdayInt, int& sunCount, int& wedCount);
 void createServices(int sundayInt, int wednesdayInt, int sunCount, int wedCount, int monthInt, int yearInt, vector<service>& serviceVector);
-void createFullWeek(vector<service>& serviceVector, int loopCount, int monthInt, int sundayInt, int wednesdayInt, int yearInt);
+void createFullWeek(vector<service>& serviceVector, int loopCount, int monthInt, int sundayInt, int wednesdayInt, int yearInt, int afterFirstWed);
 void createFirstWednesday(vector<service>& serviceVector, int monthInt, int wednesdayInt, int yearInt);
 void createLastSunday(vector<service>& serviceVector, int monthInt, int sundayInt, int sundayAddition, int yearInt);
 void assignServices(vector<service>& serviceVector, vector<person>& personVector);
@@ -112,7 +112,7 @@ void createServices(int sundayInt, int wednesdayInt, int sunCount, int wedCount,
 		// If the first Sunday comes before the first Wednesday
 		if (sundayInt < wednesdayInt) {
 			// Create four full weeks
-			createFullWeek(serviceVector, 4, monthInt, sundayInt, wednesdayInt, yearInt);
+			createFullWeek(serviceVector, 4, monthInt, sundayInt, wednesdayInt, yearInt, 0);
 		}
 		// Else if the first Sunday comes after the first Wednesday
 		else if (sundayInt > wedCount) {
@@ -120,7 +120,7 @@ void createServices(int sundayInt, int wednesdayInt, int sunCount, int wedCount,
 			createFirstWednesday(serviceVector, monthInt, wednesdayInt, yearInt);
 
 			// Create three full weeks
-			createFullWeek(serviceVector, 3, monthInt, sundayInt, wednesdayInt, yearInt);
+			createFullWeek(serviceVector, 3, monthInt, sundayInt, wednesdayInt, yearInt, 1);
 
 			// Create the last Sunday of the month
 			createLastSunday(serviceVector, monthInt, sundayInt, 21, yearInt);
@@ -132,12 +132,12 @@ void createServices(int sundayInt, int wednesdayInt, int sunCount, int wedCount,
 		createFirstWednesday(serviceVector, monthInt, wednesdayInt, yearInt);
 
 		// Create four full weeks
-		createFullWeek(serviceVector, 4, monthInt, sundayInt, wednesdayInt, yearInt);
+		createFullWeek(serviceVector, 4, monthInt, sundayInt, wednesdayInt, yearInt, 1);
 	}
 	// Else if there are five Sundays and four Wednesdays
 	else if (sunCount > wedCount) {
 		// Create four full weeks
-		createFullWeek(serviceVector, 4, monthInt, sundayInt, wednesdayInt, yearInt);
+		createFullWeek(serviceVector, 4, monthInt, sundayInt, wednesdayInt, yearInt, 0);
 
 		// Create the last Sunday of the month
 		createLastSunday(serviceVector, monthInt, sundayInt, 28, yearInt);
@@ -145,7 +145,7 @@ void createServices(int sundayInt, int wednesdayInt, int sunCount, int wedCount,
 }
 
 // Method creates a full week
-void createFullWeek(vector<service>& serviceVector, int loopCount, int monthInt, int sundayInt, int wednesdayInt, int yearInt) {
+void createFullWeek(vector<service>& serviceVector, int loopCount, int monthInt, int sundayInt, int wednesdayInt, int yearInt, int afterFirstWed) {
 	// Create the service objects for all service on sunday <loopCount> times and push to the serviceVector
 	for (int i = 0; i < loopCount; i++) {
 		service serviceSS("Sunday School", monthInt, sundayInt + (i * 7), yearInt);
@@ -154,7 +154,7 @@ void createFullWeek(vector<service>& serviceVector, int loopCount, int monthInt,
 		serviceVector.push_back(serviceSS);
 		serviceVector.push_back(serviceSM);
 		serviceVector.push_back(serviceSN);
-		service serviceWN("Wednesday Night", monthInt, wednesdayInt + (i * 7), yearInt);
+		service serviceWN("Wednesday Night", monthInt, wednesdayInt + ((i+afterFirstWed) * 7), yearInt);
 		serviceVector.push_back(serviceWN);
 	}
 }

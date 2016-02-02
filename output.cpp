@@ -141,7 +141,7 @@ void outputLastSunday(vector<service>& serviceVector, string month) {
 
 	calFile << serviceVector[serviceVector.size() - 3].getDay() << "-" << month << "," 
 			<< serviceVector[serviceVector.size() - 2].getDay() << "-" << month << "," 
-			<< serviceVector[serviceVector.size() - 1].getDay() << "-" << month << endl
+			<< serviceVector[serviceVector.size() - 1].getDay() << "-" << month << "\n,,,\n"
 			<< serviceVector[serviceVector.size() - 3].getPerson1() << ',' 
 			<< serviceVector[serviceVector.size() - 2].getPerson1() << ',' 
 			<< serviceVector[serviceVector.size() - 1].getPerson1() << '\n'
