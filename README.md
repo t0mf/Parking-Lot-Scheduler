@@ -1,9 +1,11 @@
 # Parking-Lot-Scheduler
-Scheduler for the parking lot team at my church implemented in C++
+Scheduler for the parking lot team at Eastland Baptist Church implemented in C++
 
 First revision created by Thomas Fiveash 12/2014.
 
 Second revision (current version) created by Thomas Fiveash on 12/27/15.
+
+Most recent update by Thomas Fiveash on 2/1/2016
 
 ### About
 The Parking Lot team at my church consists of 40-50 people, three of which are on duty during any given service (watching over each of the three parking lots). This program automatically generates a random schedule for the specified month, taking in consideration some constraints.
